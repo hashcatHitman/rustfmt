@@ -13,26 +13,17 @@ jobs:
     name: build-release
     strategy:
       matrix:
-        build: [linux-x86_64, macos-x86_64, windows-x86_64-gnu, windows-x86_64-msvc]
+        build: [linux-x86_64]
         include:
           - build: linux-x86_64
-            os: ubuntu-latest
+            os: fedora-kinoite
             rust: nightly
             target: x86_64-unknown-linux-gnu
-          - build: macos-x86_64
-            os: macos-latest
-            rust: nightly
-            target: x86_64-apple-darwin
-          - build: windows-x86_64-gnu
-            os: windows-latest
-            rust: nightly-x86_64-gnu
-            target: x86_64-pc-windows-gnu
-          - build: windows-x86_64-msvc
-            os: windows-latest
-            rust: nightly-x86_64-msvc
-            target: x86_64-pc-windows-msvc
-    runs-on: ${{ matrix.os }}
+    permissions:
+      contents: write # Required by `gh release upload`
+    runs-on: ubuntu-latest
     steps:
+      - uses: GitHubSecurityLab/actions-permissions/monitor@bf82d13b9b10051d224345ab9184f5ede0a94289 # v1.0.2-beta9
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
